@@ -65,10 +65,12 @@
             // 
             // server_ip
             // 
+            IP_info ipaddress = new IP_info();
             this.server_ip.Location = new System.Drawing.Point(101, 40);
             this.server_ip.Name = "server_ip";
             this.server_ip.Size = new System.Drawing.Size(100, 21);
             this.server_ip.TabIndex = 2;
+            this.server_ip.Text = ipaddress.IPAddress;
             // 
             // server_port
             // 
@@ -76,6 +78,7 @@
             this.server_port.Name = "server_port";
             this.server_port.Size = new System.Drawing.Size(100, 21);
             this.server_port.TabIndex = 3;
+            this.server_port.Text = ipaddress.IP_Port.ToString();
             // 
             // btn_listen
             // 
@@ -141,9 +144,9 @@
             // 
             this.list_client.FormattingEnabled = true;
             this.list_client.ItemHeight = 12;
-            this.list_client.Location = new System.Drawing.Point(309, 28);
+            this.list_client.Location = new System.Drawing.Point(207, 28);
             this.list_client.Name = "list_client";
-            this.list_client.Size = new System.Drawing.Size(173, 88);
+            this.list_client.Size = new System.Drawing.Size(263, 88);
             this.list_client.TabIndex = 7;
             // 
             // btn_close
