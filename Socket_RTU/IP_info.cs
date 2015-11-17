@@ -17,10 +17,19 @@ namespace Socket_RTU
         private void GetIP_info()
         {
             //string hostName = Dns.GetHostName();//本机名               
-            //addressList = Dns.GetHostAddresses(hostName);//会返回所有地址，包括IPv4和IPv6   
+            //addressList = Dns.GetHostAddresses(hostName);//会返回所有地址，包括IPv4和IPv6  
+            myip = null; 
             IPHostEntry IpEntry = Dns.GetHostEntry(Dns.GetHostName());
-           
-            myip = IpEntry.AddressList[3].ToString();
+            foreach(IPAddress ip in IpEntry.AddressList)
+            {
+                if(ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    myip = ip.ToString();
+                    break;
+                }
+            }
+
+            
         }
         public string IPAddress
         {

@@ -61,12 +61,18 @@ namespace Socket_RTU
                 //start a new thread for recieve
                 thread = new Thread(new ThreadStart(WatchConnection));
                 thread.Start();
+                this.btn_close.Enabled = true;
+                this.btn_listen.Enabled = false;
 
             }
             catch (Exception ex)
             {
+                this.btn_listen.Enabled = true;
+                this.btn_close.Enabled = false;
+                socketserver.Close();
                 txtBox_display.Text = ex.Message.ToString() + "\r\n";
                 Console.WriteLine(ex.Message.ToString());
+
             }
         }
 
@@ -74,32 +80,43 @@ namespace Socket_RTU
         {
             while (true)
             {
-                //wait for Client connect
-                ClientSocket[ClientNumb] = socketserver.Accept();
-                //ClientSocket[ClientNumb].BeginReceive(MsgBuffer, 0,
-                //                                       MsgBuffer.Length,
-                //                                       SocketFlags.None,
-                //                                       new AsyncCallback(ReceiveCallback), 
-                //                                       ClientSocket[ClientNumb]
-                //                                       );
-                this.Invoke((MethodInvoker)delegate
+                try
                 {
-                    lock(this.list_client)
-                    this.list_client.BeginUpdate();
-                    this.list_client.Items.Add("客户端连接成功");
-                    this.list_client.EndUpdate();
-                });
-                Thread thread = new Thread(new ParameterizedThreadStart(ServerRecMsg));
-                thread.IsBackground = true;
-                thread.Start(ClientSocket[ClientNumb]);
-                ClientNumb++;
+                    //wait for Client connect
+                    ClientSocket[ClientNumb] = socketserver.Accept();
+
+
+                    Thread thread = new Thread(new ParameterizedThreadStart(ServerRecMsg));
+                    thread.IsBackground = true;
+                    thread.Start(ClientSocket[ClientNumb]);
+                    ClientNumb++;
+
+                }catch(System.Exception ex)
+                {
+                    stop_socket();
+                    Console.WriteLine("{0}",ex);
+                    break;
+                }
+                
+                
+              
             }
         }
         private void ServerRecMsg(object socketClientPara)
         {
             Socket RT_socketServer = socketClientPara as Socket;
+            IPEndPoint clientipe = (IPEndPoint)RT_socketServer.RemoteEndPoint;
+            int list_index = 0;
+            string client_ip_port = clientipe.Address.ToString() + ":" + clientipe.Port.ToString();
             try
             {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    lock (this.list_client)
+                    this.list_client.BeginUpdate();
+                    list_index = this.list_client.Items.Add(client_ip_port);
+                    this.list_client.EndUpdate();
+                });
                 while (true)
                 {
                     byte[] arrServerRecMsg = new byte[1024 * 1024];
@@ -123,13 +140,22 @@ namespace Socket_RTU
                            
 
                         }
+
                     }
                     else
                     {
                         this.Invoke((MethodInvoker)delegate
                         {
                             this.txtBox_display.Text += "Client disconnected" + strSRecMsg + "\r\n";
+                            lock (this.list_client)
+                            this.list_client.BeginUpdate();
+                            this.list_client.Items.RemoveAt(list_index);
+                            this.list_client.EndUpdate();
+
                         });
+                        Thread.Sleep(500);
+                        RT_socketServer.Close();
+                        break;
                     }
 
                    // byte[] arrSendMsg = Encoding.UTF8.GetBytes("Hello client");
@@ -142,7 +168,8 @@ namespace Socket_RTU
                 }
             }catch(System.Exception ex)
             {
-
+                txtBox_display.Text = ex.Message.ToString() + "\r\n";
+                Console.WriteLine(ex.Message.ToString());
             }
 
         }
@@ -150,37 +177,38 @@ namespace Socket_RTU
         private void autoSendCmd(object socket_a, string rcvMsg)
         {
             Socket socketServer = socket_a as Socket;
-            String rcv_login_Status = rcvMsg.Substring(rcvMsg.Length - 10, 4);
-            String rtu_empty_flag = "680700070068E0111111122104B416";
+            string rcv_login_Status = rcvMsg.Substring(rcvMsg.Length - 10, 4);
+            string rtu_empty_flag = "680700070068E0111111122104B416";
             byte[] SendMsg_Query = Encoding.UTF8.GetBytes(CmdData.cmd_query);
             byte[] SendMsg_Logout = Encoding.UTF8.GetBytes(CmdData.cmd_logout);
 
-            //Console.WriteLine("{0} 截取字符", rcv_login_Status);
+            //  Console.WriteLine("{0} 截取字符", rtu_empty_flag);
 
             ////judge the RTU login string
-            //if (rcv_login_Status == "637E")
-            //{
-                //socketServer.Send(SendMsg_Query);
-                //this.Invoke((MethodInvoker)delegate
-                //{
-                //    this.txtBox_display.Text += "Client<--：" + CmdData.cmd_query + "\r\n";
-                //});
-           // }
-            //else if(rcvMsg != rtu_empty_flag)
-            //{
-            //    socketServer.Send(SendMsg_Query);
-            //    this.Invoke((MethodInvoker)delegate
-            //    {
-            //        this.txtBox_display.Text += "Client<--：" + CmdData.cmd_query + "\r\n";
-            //    });
-            //}else if(rcvMsg == rtu_empty_flag)
-            //{
-            //    socketServer.Send(SendMsg_Logout);
-            //    this.Invoke((MethodInvoker)delegate
-            //    {
-            //        this.txtBox_display.Text += "Client<--：" + CmdData.cmd_logout + "\r\n";
-            //    });
-            //}
+            if (rcv_login_Status == "637E")
+            {
+                socketServer.Send(SendMsg_Query);
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.txtBox_display.Text += "Client<--：" + CmdData.cmd_query + "\r\n";
+                });
+            }
+            else if (rcvMsg != rtu_empty_flag)
+            {
+                socketServer.Send(SendMsg_Query);
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.txtBox_display.Text += "Client<--：" + CmdData.cmd_query + "\r\n";
+                });
+            }
+            else if (rcvMsg == rtu_empty_flag)
+            {
+                socketServer.Send(SendMsg_Logout);
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.txtBox_display.Text += "Client<--：" + CmdData.cmd_logout + "\r\n";
+                });
+            }
 
 
         }
@@ -210,36 +238,49 @@ namespace Socket_RTU
                 btn_auto.Text = "自动收发";
 
             }
-            //Socket sockrev = null;
-            //int client_index;
-            //if (list_client.Items.Count > 0 && list_client.SelectedIndices[0] >= 0)
-            //{
-            //    client_index = list_client.SelectedIndices[0];
-            //    if (CmdData.cmd_query != null && CmdData.cmd_logout != null)
-            //    {
-            //        if (ClientSocket[client_index] != null)
-            //        {
-            //            sockrev = ClientSocket[ClientNumb - 1];
-            //            byte[] arrsServerSendMsg = Encoding.UTF8.GetBytes(CmdData.cmd_query);
-            //            //发送数据
-            //            sockrev.Send(arrsServerSendMsg);
-            //            this.txtBox_display.Text += "Client<--" + CmdData.cmd_query + "\r\n";
-            //        }
-            //        else
-            //        {
-            //            txtBox_display.Text += "用户连接失效\r\n";
+           
+        }
+        private void stop_socket()
+        {
+            socketserver.Close();
 
-            //        }
-            //    }
-            //    else
-            //    {
-            //        txtBox_display.Text += "发送指令未配置，请配置指令\r\n";
-            //    }
-            //}
-            //else
-            //{
-            //    this.txtBox_display.Text += "用户连接失效\r\n";
-            //}
+        }
+
+        private void btn_close_Click(object sender, EventArgs e)
+        {
+            if (socketserver != null)
+            {
+               
+                byte[] SendMsg_CloseSoc = Encoding.UTF8.GetBytes("Server closed");
+                foreach (Socket soc in ClientSocket)
+                {
+                    if (soc != null)
+                    {
+                        soc.Send(SendMsg_CloseSoc);
+                        soc.Disconnect(false);
+                        
+                    }
+
+                    
+                }
+                
+                socketserver.Close();
+                this.btn_listen.Enabled = true;
+                this.btn_close.Enabled = false;
+                this.txtBox_display.Text += "Socket服务已经关闭 \r\n";
+               
+                
+            }
+            else
+            {
+                this.txtBox_display.Text += "Socket服务未开启 \r\n";
+            }
+
+        }
+
+        private void list_client_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

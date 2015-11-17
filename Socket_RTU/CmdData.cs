@@ -8,7 +8,7 @@ namespace Socket_RTU
 {
     class CmdData
     {
-        public static string cmd_query;
-        public static string cmd_logout;
+        public static string cmd_query = "680600060068001111111221e716";
+        public static string cmd_logout = "680600060068001111111212bb16";
     }
 }

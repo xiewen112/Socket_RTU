@@ -65,12 +65,11 @@
             // 
             // server_ip
             // 
-            IP_info ipaddress = new IP_info();
             this.server_ip.Location = new System.Drawing.Point(101, 40);
             this.server_ip.Name = "server_ip";
             this.server_ip.Size = new System.Drawing.Size(100, 21);
             this.server_ip.TabIndex = 2;
-            this.server_ip.Text = ipaddress.IPAddress;
+            this.server_ip.Text = "192.168.1.109";
             // 
             // server_port
             // 
@@ -78,7 +77,7 @@
             this.server_port.Name = "server_port";
             this.server_port.Size = new System.Drawing.Size(100, 21);
             this.server_port.TabIndex = 3;
-            this.server_port.Text = ipaddress.IP_Port.ToString();
+            this.server_port.Text = "2997";
             // 
             // btn_listen
             // 
@@ -148,15 +147,18 @@
             this.list_client.Name = "list_client";
             this.list_client.Size = new System.Drawing.Size(263, 88);
             this.list_client.TabIndex = 7;
+            this.list_client.SelectedIndexChanged += new System.EventHandler(this.list_client_SelectedIndexChanged);
             // 
             // btn_close
             // 
+            this.btn_close.Enabled = false;
             this.btn_close.Location = new System.Drawing.Point(126, 97);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(75, 23);
             this.btn_close.TabIndex = 8;
             this.btn_close.Text = "断开";
             this.btn_close.UseVisualStyleBackColor = true;
+            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
             // 
             // btn_auto
             // 
