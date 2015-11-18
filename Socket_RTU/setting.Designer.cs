@@ -92,12 +92,13 @@
             // 
             // rtu_cmdQuery
             // 
-            
+           
+
             this.rtu_cmdQuery.Location = new System.Drawing.Point(83, 40);
             this.rtu_cmdQuery.Name = "rtu_cmdQuery";
             this.rtu_cmdQuery.Size = new System.Drawing.Size(189, 21);
             this.rtu_cmdQuery.TabIndex = 5;
-            this.rtu_cmdQuery.Text = CmdData.cmd_query;
+            this.rtu_cmdQuery.Text = "";
             this.rtu_cmdQuery.TextChanged += new System.EventHandler(this.rtu_cmdQuery_TextChanged);
             // 
             // rtu_cmdLogout
@@ -106,7 +107,7 @@
             this.rtu_cmdLogout.Name = "rtu_cmdLogout";
             this.rtu_cmdLogout.Size = new System.Drawing.Size(190, 21);
             this.rtu_cmdLogout.TabIndex = 6;
-            this.rtu_cmdLogout.Text = CmdData.cmd_logout;
+            this.rtu_cmdLogout.Text = "";
             this.rtu_cmdLogout.TextChanged += new System.EventHandler(this.rtu_cmdLogout_TextChanged);
             // 
             // btn_save
@@ -146,5 +147,6 @@
         private System.Windows.Forms.TextBox rtu_cmdLogout;
         private System.Windows.Forms.TextBox rtu_cmdQuery;
         private System.Windows.Forms.Button btn_save;
+        
     }
 }

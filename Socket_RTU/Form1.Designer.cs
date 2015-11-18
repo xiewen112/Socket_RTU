@@ -37,18 +37,34 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.命令管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.分析ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.解析数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.导出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.帮助ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.list_client = new System.Windows.Forms.ListBox();
             this.btn_close = new System.Windows.Forms.Button();
             this.btn_auto = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.Base_container = new System.Windows.Forms.SplitContainer();
+            this.label3 = new System.Windows.Forms.Label();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Base_container)).BeginInit();
+            this.Base_container.Panel1.SuspendLayout();
+            this.Base_container.Panel2.SuspendLayout();
+            this.Base_container.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 43);
+            this.label1.Location = new System.Drawing.Point(6, 6);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 12);
             this.label1.TabIndex = 0;
@@ -57,7 +73,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(60, 73);
+            this.label2.Location = new System.Drawing.Point(54, 32);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 12);
             this.label2.TabIndex = 1;
@@ -65,7 +81,7 @@
             // 
             // server_ip
             // 
-            this.server_ip.Location = new System.Drawing.Point(101, 40);
+            this.server_ip.Location = new System.Drawing.Point(97, 3);
             this.server_ip.Name = "server_ip";
             this.server_ip.Size = new System.Drawing.Size(100, 21);
             this.server_ip.TabIndex = 2;
@@ -73,7 +89,7 @@
             // 
             // server_port
             // 
-            this.server_port.Location = new System.Drawing.Point(101, 70);
+            this.server_port.Location = new System.Drawing.Point(97, 29);
             this.server_port.Name = "server_port";
             this.server_port.Size = new System.Drawing.Size(100, 21);
             this.server_port.TabIndex = 3;
@@ -81,7 +97,7 @@
             // 
             // btn_listen
             // 
-            this.btn_listen.Location = new System.Drawing.Point(45, 97);
+            this.btn_listen.Location = new System.Drawing.Point(14, 56);
             this.btn_listen.Name = "btn_listen";
             this.btn_listen.Size = new System.Drawing.Size(75, 23);
             this.btn_listen.TabIndex = 4;
@@ -91,9 +107,9 @@
             // 
             // txtBox_display
             // 
-            this.txtBox_display.Location = new System.Drawing.Point(14, 227);
+            this.txtBox_display.Location = new System.Drawing.Point(14, 3);
             this.txtBox_display.Name = "txtBox_display";
-            this.txtBox_display.Size = new System.Drawing.Size(468, 211);
+            this.txtBox_display.Size = new System.Drawing.Size(452, 200);
             this.txtBox_display.TabIndex = 5;
             this.txtBox_display.Text = "";
             this.txtBox_display.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
@@ -102,10 +118,11 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.设置ToolStripMenuItem,
+            this.分析ToolStripMenuItem,
             this.帮助ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(502, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(784, 25);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -125,6 +142,28 @@
             this.命令管理ToolStripMenuItem.Text = "命令管理";
             this.命令管理ToolStripMenuItem.Click += new System.EventHandler(this.命令管理ToolStripMenuItem_Click);
             // 
+            // 分析ToolStripMenuItem
+            // 
+            this.分析ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.解析数据ToolStripMenuItem,
+            this.导出ToolStripMenuItem});
+            this.分析ToolStripMenuItem.Name = "分析ToolStripMenuItem";
+            this.分析ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.分析ToolStripMenuItem.Text = "分析";
+            // 
+            // 解析数据ToolStripMenuItem
+            // 
+            this.解析数据ToolStripMenuItem.Name = "解析数据ToolStripMenuItem";
+            this.解析数据ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.解析数据ToolStripMenuItem.Text = "解析数据";
+            this.解析数据ToolStripMenuItem.Click += new System.EventHandler(this.解析数据ToolStripMenuItem_Click);
+            // 
+            // 导出ToolStripMenuItem
+            // 
+            this.导出ToolStripMenuItem.Name = "导出ToolStripMenuItem";
+            this.导出ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.导出ToolStripMenuItem.Text = "导出";
+            // 
             // 帮助ToolStripMenuItem
             // 
             this.帮助ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -143,7 +182,7 @@
             // 
             this.list_client.FormattingEnabled = true;
             this.list_client.ItemHeight = 12;
-            this.list_client.Location = new System.Drawing.Point(207, 28);
+            this.list_client.Location = new System.Drawing.Point(203, 29);
             this.list_client.Name = "list_client";
             this.list_client.Size = new System.Drawing.Size(263, 88);
             this.list_client.TabIndex = 7;
@@ -152,7 +191,7 @@
             // btn_close
             // 
             this.btn_close.Enabled = false;
-            this.btn_close.Location = new System.Drawing.Point(126, 97);
+            this.btn_close.Location = new System.Drawing.Point(95, 56);
             this.btn_close.Name = "btn_close";
             this.btn_close.Size = new System.Drawing.Size(75, 23);
             this.btn_close.TabIndex = 8;
@@ -162,34 +201,109 @@
             // 
             // btn_auto
             // 
-            this.btn_auto.Location = new System.Drawing.Point(45, 143);
+            this.btn_auto.Location = new System.Drawing.Point(14, 85);
             this.btn_auto.Name = "btn_auto";
             this.btn_auto.Size = new System.Drawing.Size(75, 23);
             this.btn_auto.TabIndex = 9;
-            this.btn_auto.Text = "自动收发";
+            this.btn_auto.Text = "自动应答";
             this.btn_auto.UseVisualStyleBackColor = true;
             this.btn_auto.Click += new System.EventHandler(this.btn_auto_Click);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Location = new System.Drawing.Point(4, 3);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Panel1.Controls.Add(this.label5);
+            this.splitContainer1.Panel1.Controls.Add(this.list_client);
+            this.splitContainer1.Panel1.Controls.Add(this.label1);
+            this.splitContainer1.Panel1.Controls.Add(this.btn_auto);
+            this.splitContainer1.Panel1.Controls.Add(this.label2);
+            this.splitContainer1.Panel1.Controls.Add(this.btn_close);
+            this.splitContainer1.Panel1.Controls.Add(this.server_ip);
+            this.splitContainer1.Panel1.Controls.Add(this.btn_listen);
+            this.splitContainer1.Panel1.Controls.Add(this.server_port);
+            this.splitContainer1.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.txtBox_display);
+            this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
+            this.splitContainer1.Size = new System.Drawing.Size(480, 340);
+            this.splitContainer1.SplitterDistance = 123;
+            this.splitContainer1.TabIndex = 10;
+            // 
+            // Base_container
+            // 
+            this.Base_container.Location = new System.Drawing.Point(12, 28);
+            this.Base_container.Name = "Base_container";
+            // 
+            // Base_container.Panel1
+            // 
+            this.Base_container.Panel1.Controls.Add(this.splitContainer1);
+            // 
+            // Base_container.Panel2
+            // 
+            this.Base_container.Panel2.Controls.Add(this.label3);
+            this.Base_container.Panel2.Controls.Add(this.richTextBox1);
+            this.Base_container.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.Base_container_Panel2_Paint);
+            this.Base_container.Size = new System.Drawing.Size(760, 350);
+            this.Base_container.SplitterDistance = 492;
+            this.Base_container.TabIndex = 11;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1, 6);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 12);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "解析数据：";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(3, 25);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(258, 322);
+            this.richTextBox1.TabIndex = 11;
+            this.richTextBox1.Text = "";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(201, 3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 12);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "当前连接：";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 462);
-            this.Controls.Add(this.btn_auto);
-            this.Controls.Add(this.btn_close);
-            this.Controls.Add(this.list_client);
-            this.Controls.Add(this.txtBox_display);
-            this.Controls.Add(this.btn_listen);
-            this.Controls.Add(this.server_port);
-            this.Controls.Add(this.server_ip);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(784, 382);
+            this.Controls.Add(this.Base_container);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.Base_container.Panel1.ResumeLayout(false);
+            this.Base_container.Panel2.ResumeLayout(false);
+            this.Base_container.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Base_container)).EndInit();
+            this.Base_container.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,6 +325,14 @@
         private System.Windows.Forms.ListBox list_client;
         private System.Windows.Forms.Button btn_close;
         private System.Windows.Forms.Button btn_auto;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.ToolStripMenuItem 分析ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 解析数据ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 导出ToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer Base_container;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label5;
     }
 }
 

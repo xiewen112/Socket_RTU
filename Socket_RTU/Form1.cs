@@ -33,8 +33,10 @@ namespace Socket_RTU
         public Form1()
         {
             InitializeComponent();
-            
-            
+            IP_info ip = new IP_info();
+            this.server_ip.Text = ip.IPAddress;
+            this.server_port.Text = ip.IP_Port.ToString();
+
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -67,9 +69,12 @@ namespace Socket_RTU
             }
             catch (Exception ex)
             {
+                if(socketserver != null)
+                {
+                    socketserver.Close();
+                }
                 this.btn_listen.Enabled = true;
                 this.btn_close.Enabled = false;
-                socketserver.Close();
                 txtBox_display.Text = ex.Message.ToString() + "\r\n";
                 Console.WriteLine(ex.Message.ToString());
 
@@ -129,17 +134,18 @@ namespace Socket_RTU
                             this.txtBox_display.Text += "Client-->：" + strSRecMsg + "\r\n";
                         });
 
-                        if (btn_auto.Text == "停止")
+                        if (btn_auto.Text == "关闭应答" && strSRecMsg.Length > 10)
                         {
                             
                            autoSendCmd(RT_socketServer, strSRecMsg);
 
                         }
-                        else if (btn_auto.Text == "自动收发")
+                        else if (btn_auto.Text == "自动应答")
                         {
-                           
+
 
                         }
+                        
 
                     }
                     else
@@ -156,59 +162,72 @@ namespace Socket_RTU
                         Thread.Sleep(500);
                         RT_socketServer.Close();
                         break;
-                    }
-
-                   // byte[] arrSendMsg = Encoding.UTF8.GetBytes("Hello client");
-                   // RT_socketServer.Send(arrSendMsg);
-
-                  
-                    
-
+                    }         
 
                 }
             }catch(System.Exception ex)
             {
-                txtBox_display.Text = ex.Message.ToString() + "\r\n";
+                this.Invoke((MethodInvoker)delegate
+                {
+                    txtBox_display.Text = ex.Message.ToString() + "\r\n";
+                });
+                
                 Console.WriteLine(ex.Message.ToString());
             }
 
         }
 
+        //parse string
         private void autoSendCmd(object socket_a, string rcvMsg)
         {
             Socket socketServer = socket_a as Socket;
+            CmdData cmddata = new CmdData();
+            RTU_DataParse parsedata = new RTU_DataParse();
             string rcv_login_Status = rcvMsg.Substring(rcvMsg.Length - 10, 4);
-            string rtu_empty_flag = "680700070068E0111111122104B416";
-            byte[] SendMsg_Query = Encoding.UTF8.GetBytes(CmdData.cmd_query);
-            byte[] SendMsg_Logout = Encoding.UTF8.GetBytes(CmdData.cmd_logout);
+            string aaa = "680F000F0068801111111211360911171115637E17E716";
 
-            //  Console.WriteLine("{0} 截取字符", rtu_empty_flag);
+            byte[] SendMsg_Query = Encoding.UTF8.GetBytes(cmddata.GetCmd_Query());
+            byte[] SendMsg_Logout = Encoding.UTF8.GetBytes(cmddata.GetCmd_Logout());
+
+            parsedata.ParseData(aaa);
 
             ////judge the RTU login string
-            if (rcv_login_Status == "637E")
-            {
-                socketServer.Send(SendMsg_Query);
-                this.Invoke((MethodInvoker)delegate
-                {
-                    this.txtBox_display.Text += "Client<--：" + CmdData.cmd_query + "\r\n";
-                });
-            }
-            else if (rcvMsg != rtu_empty_flag)
-            {
-                socketServer.Send(SendMsg_Query);
-                this.Invoke((MethodInvoker)delegate
-                {
-                    this.txtBox_display.Text += "Client<--：" + CmdData.cmd_query + "\r\n";
-                });
-            }
-            else if (rcvMsg == rtu_empty_flag)
-            {
-                socketServer.Send(SendMsg_Logout);
-                this.Invoke((MethodInvoker)delegate
-                {
-                    this.txtBox_display.Text += "Client<--：" + CmdData.cmd_logout + "\r\n";
-                });
-            }
+            //if (rcv_login_Status == cmddata.GetRtn_flag(1))
+            //{
+            //    socketServer.Send(SendMsg_Query);
+            //    this.Invoke((MethodInvoker)delegate
+            //    {
+            //        this.txtBox_display.Text += "Client<--：" + cmddata.GetCmd_Query() + "\r\n";
+            //    });
+            //}
+            //else if (rcvMsg != cmddata.GetRtn_flag(2))
+            //{
+            //    socketServer.Send(SendMsg_Query);
+            //    this.Invoke((MethodInvoker)delegate
+            //    {
+            //        this.txtBox_display.Text += "Client<--：" + cmddata.GetCmd_Query() + "\r\n";
+            //    });
+            //}
+            //else if (rcvMsg == cmddata.GetRtn_flag(2))
+            //{
+            //    socketServer.Send(SendMsg_Logout);
+            //    this.Invoke((MethodInvoker)delegate
+            //    {
+            //        this.txtBox_display.Text += "Client<--：" + cmddata.GetCmd_Logout() + "\r\n";
+            //    });
+            //}
+            //else if (rcvMsg == cmddata.GetRtn_flag(3))
+            //{
+            //    this.Invoke((MethodInvoker)delegate
+            //    {
+            //        this.txtBox_display.Text += "RTU 登出， 断开连接\r\n";
+            //    });
+            //    socketServer.Dispose();
+            //}
+            //else
+            //{
+            //    this.txtBox_display.Text += "不能识别参数:" + rcvMsg + "\r\n";
+            //}
 
 
         }
@@ -229,13 +248,13 @@ namespace Socket_RTU
 
         private void btn_auto_Click(object sender, EventArgs e)
         {
-            if(btn_auto.Text == "自动收发")
+            if(btn_auto.Text == "自动应答")
             {
-                btn_auto.Text = "停止";
+                btn_auto.Text = "关闭应答";
 
-            }else if(btn_auto.Text == "停止")
+            }else if(btn_auto.Text == "关闭应答")
             {
-                btn_auto.Text = "自动收发";
+                btn_auto.Text = "自动应答";
 
             }
            
@@ -279,6 +298,31 @@ namespace Socket_RTU
         }
 
         private void list_client_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void 解析数据ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Base_container_Panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }

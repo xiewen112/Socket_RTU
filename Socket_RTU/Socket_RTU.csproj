@@ -56,6 +56,7 @@
     <Compile Include="IP_info.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RTU_DataParse.cs" />
     <Compile Include="setting.cs">
       <SubType>Form</SubType>
     </Compile>

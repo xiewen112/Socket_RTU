@@ -17,6 +17,9 @@ namespace Socket_RTU
         public setting()
         {
             InitializeComponent();
+             CmdData cmddata = new CmdData();
+            rtu_cmdQuery.Text = cmddata.GetCmd_Query();
+            rtu_cmdLogout.Text = cmddata.GetCmd_Logout();
         }
 
         private void setting_Load(object sender, EventArgs e)
@@ -38,8 +41,9 @@ namespace Socket_RTU
 
         private void btn_save_Click(object sender, EventArgs e)
         {
-            CmdData.cmd_query = rtu_cmdQuery.Text.ToString();
-            CmdData.cmd_logout = rtu_cmdLogout.Text.ToString();
+            CmdData cmddata = new CmdData();
+            cmddata.SetCmd_Query(rtu_cmdQuery.Text.ToString());
+            cmddata.SetCmd_Logout(rtu_cmdLogout.Text.ToString());
             Close();
         }
     }
