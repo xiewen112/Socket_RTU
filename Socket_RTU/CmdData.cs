@@ -8,6 +8,7 @@ namespace Socket_RTU
 {
     class CmdData
     {
+        private static string rtu_id = "11111112";
         private static string cmd_query = "680600060068001111111221e716";
         private static string cmd_logout = "680600060068001111111212bb16";
         private string rtn_empty_flag = "680700070068E0111111122104B416";
@@ -53,6 +54,7 @@ namespace Socket_RTU
             }
             return result;
         }
+
         
     }
 }

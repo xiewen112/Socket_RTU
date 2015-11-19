@@ -31,6 +31,7 @@ namespace Socket_RTU
             serverSocket.Bind(new IPEndPoint(ip, input_port));
             serverSocket.Listen(listenVol);
             Console.WriteLine("启动监听{0}成功", serverSocket.LocalEndPoint.ToString());
+
             return serverSocket;
 
   
