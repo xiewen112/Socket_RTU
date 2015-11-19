@@ -192,42 +192,42 @@ namespace Socket_RTU
             parsedata.ParseData(aaa);
 
             ////judge the RTU login string
-            //if (rcv_login_Status == cmddata.GetRtn_flag(1))
-            //{
-            //    socketServer.Send(SendMsg_Query);
-            //    this.Invoke((MethodInvoker)delegate
-            //    {
-            //        this.txtBox_display.Text += "Client<--：" + cmddata.GetCmd_Query() + "\r\n";
-            //    });
-            //}
-            //else if (rcvMsg != cmddata.GetRtn_flag(2))
-            //{
-            //    socketServer.Send(SendMsg_Query);
-            //    this.Invoke((MethodInvoker)delegate
-            //    {
-            //        this.txtBox_display.Text += "Client<--：" + cmddata.GetCmd_Query() + "\r\n";
-            //    });
-            //}
-            //else if (rcvMsg == cmddata.GetRtn_flag(2))
-            //{
-            //    socketServer.Send(SendMsg_Logout);
-            //    this.Invoke((MethodInvoker)delegate
-            //    {
-            //        this.txtBox_display.Text += "Client<--：" + cmddata.GetCmd_Logout() + "\r\n";
-            //    });
-            //}
-            //else if (rcvMsg == cmddata.GetRtn_flag(3))
-            //{
-            //    this.Invoke((MethodInvoker)delegate
-            //    {
-            //        this.txtBox_display.Text += "RTU 登出， 断开连接\r\n";
-            //    });
-            //    socketServer.Dispose();
-            //}
-            //else
-            //{
-            //    this.txtBox_display.Text += "不能识别参数:" + rcvMsg + "\r\n";
-            //}
+            if (rcv_login_Status == cmddata.GetRtn_flag(1))
+            {
+                socketServer.Send(SendMsg_Query);
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.txtBox_display.Text += "Client<--：" + cmddata.GetCmd_Query() + "\r\n";
+                });
+            }
+            else if (rcvMsg != cmddata.GetRtn_flag(2))
+            {
+                socketServer.Send(SendMsg_Query);
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.txtBox_display.Text += "Client<--：" + cmddata.GetCmd_Query() + "\r\n";
+                });
+            }
+            else if (rcvMsg == cmddata.GetRtn_flag(2))
+            {
+                socketServer.Send(SendMsg_Logout);
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.txtBox_display.Text += "Client<--：" + cmddata.GetCmd_Logout() + "\r\n";
+                });
+            }
+            else if (rcvMsg == cmddata.GetRtn_flag(3))
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    this.txtBox_display.Text += "RTU 登出， 断开连接\r\n";
+                });
+                socketServer.Dispose();
+            }
+            else
+            {
+                this.txtBox_display.Text += "不能识别参数:" + rcvMsg + "\r\n";
+            }
 
 
         }
