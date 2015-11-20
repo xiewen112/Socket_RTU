@@ -172,7 +172,12 @@ namespace Socket_RTU
             {
                 this.Invoke((MethodInvoker)delegate
                 {
-                    txtBox_display.Text = "ServerRecMsg: " + ex.Message.ToString() + "\r\n";
+                    txtBox_display.Text += "ServerRecMsg: " + ex.Message.ToString() + "\r\n";
+                    
+                    lock (this.list_client)
+                    this.list_client.BeginUpdate();
+                    this.list_client.Items.RemoveAt(list_index);
+                    this.list_client.EndUpdate();
                 });
                 
                 Console.WriteLine(ex.Message.ToString());
@@ -197,7 +202,7 @@ namespace Socket_RTU
                 ////judge the RTU login string
 
                 dataparse.ParseData(rcvMsg);
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 if (dataparse.CMD_TYPE == "RTU_LOGIN")
                 {
                     //dataparse.CMD_TYPE = "LOGIN_SUCCESS";
@@ -205,7 +210,7 @@ namespace Socket_RTU
                     Console.WriteLine(dataparse.ADDRESS);
                     this.Invoke((MethodInvoker)delegate
                     {
-                        this.txtBox_display.Text += "Client<--：" + cmddata.GetCmd_Query() + "\r\n";
+                        this.txtBox_display.Text += "Server<--：" + cmddata.GetCmd_Query() + "\r\n";
 
                         this.txt_parseDisplay.Text += "----------- " + DateTime.Now.ToString() + "----------- " + "\r\n";
                         this.txt_parseDisplay.Text += "编号：" + dataparse.ADDRESS + "\r\n";
@@ -223,7 +228,7 @@ namespace Socket_RTU
                     
                     this.Invoke((MethodInvoker)delegate
                     {
-                        this.txtBox_display.Text += "Client<--：" + cmddata.GetCmd_Query() + "\r\n";
+                        this.txtBox_display.Text += "Server<--：" + cmddata.GetCmd_Query() + "\r\n";
                         //this.txt_parseDisplay.Text += "----------- " + DateTime.Now.ToString() + "----------- " + "\r\n";
                         //this.txt_parseDisplay.Text += "编号：" + dataparse.ADDRESS + "\r\n";
                         //this.txt_parseDisplay.Text += "指令码：" + dataparse.CMD_CODE + "\r\n";
@@ -286,13 +291,16 @@ namespace Socket_RTU
              
         }
 
+
         private void btn_auto_Click(object sender, EventArgs e)
         {
+
             CRC ccc = new CRC();
-            byte[] crc_in = { 0x00, 0x11, 0x11, 0x11, 0x31, 0x21 };
-            byte poly = 0x40;
+            //  byte[] crc_in = { 0x21, 0x31, 0x11, 0x11, 0x11, 0x00};
+            byte[] crc_in = { 0x00, 0x11, 0x11, 0x11, 0x31,  0x21};
+    
             
-            Console.WriteLine("{0}", Convert.ToString(ccc.CRC8(poly, crc_in),16));
+            Console.WriteLine("{0}", Convert.ToString(ccc.CRC8(crc_in,0, crc_in.Length),16));
 
             if(btn_auto.Text == "自动应答")
             {
@@ -371,6 +379,14 @@ namespace Socket_RTU
         private void Base_container_Panel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void Menu_LogSavePath_Click(object sender, EventArgs e)
+        {
+            //选择文件夹
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.ShowDialog();
+            MessageBox.Show(fbd.SelectedPath);
         }
     }
 }

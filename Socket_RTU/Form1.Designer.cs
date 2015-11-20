@@ -37,6 +37,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.命令管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Menu_LogSavePath = new System.Windows.Forms.ToolStripMenuItem();
+            this.工具ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.命令生成ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.分析ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.解析数据ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,6 +49,7 @@
             this.btn_close = new System.Windows.Forms.Button();
             this.btn_auto = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.ckB_IsSaveLog = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.Base_container = new System.Windows.Forms.SplitContainer();
             this.label3 = new System.Windows.Forms.Label();
@@ -119,6 +123,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.设置ToolStripMenuItem,
+            this.工具ToolStripMenuItem,
             this.分析ToolStripMenuItem,
             this.帮助ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -131,7 +136,8 @@
             // 设置ToolStripMenuItem
             // 
             this.设置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.命令管理ToolStripMenuItem});
+            this.命令管理ToolStripMenuItem,
+            this.Menu_LogSavePath});
             this.设置ToolStripMenuItem.Name = "设置ToolStripMenuItem";
             this.设置ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.设置ToolStripMenuItem.Text = "设置";
@@ -139,9 +145,30 @@
             // 命令管理ToolStripMenuItem
             // 
             this.命令管理ToolStripMenuItem.Name = "命令管理ToolStripMenuItem";
-            this.命令管理ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.命令管理ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.命令管理ToolStripMenuItem.Text = "命令管理";
             this.命令管理ToolStripMenuItem.Click += new System.EventHandler(this.命令管理ToolStripMenuItem_Click);
+            // 
+            // Menu_LogSavePath
+            // 
+            this.Menu_LogSavePath.Name = "Menu_LogSavePath";
+            this.Menu_LogSavePath.Size = new System.Drawing.Size(152, 22);
+            this.Menu_LogSavePath.Text = "日志保存地址";
+            this.Menu_LogSavePath.Click += new System.EventHandler(this.Menu_LogSavePath_Click);
+            // 
+            // 工具ToolStripMenuItem
+            // 
+            this.工具ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.命令生成ToolStripMenuItem});
+            this.工具ToolStripMenuItem.Name = "工具ToolStripMenuItem";
+            this.工具ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.工具ToolStripMenuItem.Text = "工具";
+            // 
+            // 命令生成ToolStripMenuItem
+            // 
+            this.命令生成ToolStripMenuItem.Name = "命令生成ToolStripMenuItem";
+            this.命令生成ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.命令生成ToolStripMenuItem.Text = "命令生成";
             // 
             // 分析ToolStripMenuItem
             // 
@@ -212,6 +239,7 @@
             // 
             // splitContainer1
             // 
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(4, 3);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -219,6 +247,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainer1.Panel1.Controls.Add(this.ckB_IsSaveLog);
             this.splitContainer1.Panel1.Controls.Add(this.label5);
             this.splitContainer1.Panel1.Controls.Add(this.list_client);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
@@ -238,6 +267,16 @@
             this.splitContainer1.SplitterDistance = 127;
             this.splitContainer1.TabIndex = 10;
             // 
+            // ckB_IsSaveLog
+            // 
+            this.ckB_IsSaveLog.AutoSize = true;
+            this.ckB_IsSaveLog.Location = new System.Drawing.Point(97, 100);
+            this.ckB_IsSaveLog.Name = "ckB_IsSaveLog";
+            this.ckB_IsSaveLog.Size = new System.Drawing.Size(72, 16);
+            this.ckB_IsSaveLog.TabIndex = 12;
+            this.ckB_IsSaveLog.Text = "写入日志";
+            this.ckB_IsSaveLog.UseVisualStyleBackColor = true;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -249,6 +288,7 @@
             // 
             // Base_container
             // 
+            this.Base_container.IsSplitterFixed = true;
             this.Base_container.Location = new System.Drawing.Point(12, 28);
             this.Base_container.Name = "Base_container";
             // 
@@ -290,6 +330,7 @@
             this.Controls.Add(this.Base_container);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -334,6 +375,10 @@
         private System.Windows.Forms.RichTextBox txt_parseDisplay;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ToolStripMenuItem 工具ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 命令生成ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Menu_LogSavePath;
+        private System.Windows.Forms.CheckBox ckB_IsSaveLog;
     }
 }
 
