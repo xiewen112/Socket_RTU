@@ -8,40 +8,6 @@ namespace Socket_RTU
 {
     class CRC
     {
-        
-        //public byte CRC8(byte crcPoly, byte[] crcData)
-        //{
-        //    byte poly = crcPoly;
-        //    byte crcResult = 0xFF;
-        //    byte byteCRCTemp = 0x00;
-        //    byte[] data = new byte[crcData.Length + 1];
-        //    crcData.CopyTo(data, 0);
-        //    data[crcData.Length] = 0x00;
-
-        //    byteCRCTemp = (data[0]);
-        //    for (int i = 1; i < data.Length; i++)
-        //    {
-        //        byte tempData = data[i];
-        //        int j = 0;
-        //        while (j < 8)
-        //        {
-        //            j += 1;
-        //            byte moveOutBit = (byte)(byteCRCTemp & 0x80);
-        //            byteCRCTemp <<= 1;
-        //            byteCRCTemp |= (byte)(tempData >> 7);
-        //            tempData <<= 1;
-        //            if (moveOutBit == 0x80)//最高位为1，移出跟Poly的最高位消掉
-        //            {
-        //                byteCRCTemp = (byte)(byteCRCTemp ^ crcPoly);
-        //            }
-        //        }
-        //    }
-
-        //    crcResult &= byteCRCTemp;
-
-        //    return (byte)(crcResult );
-
-        //}
 
         private byte[] CRC8Table = new byte[] {
         0,94,188,226,97,63,221,131,194,156,126,32,163,253,31,65,
@@ -62,9 +28,12 @@ namespace Socket_RTU
         116,42,200,150,21,75,169,247,182,232,10,84,215,137,107,53 };
 
 
-        public byte CRC8(byte[] buffer, int off, int len)
+        public byte CRC8(string in_buffer, int off)
         {
             byte crc = 0;
+            byte[] buffer = strToToHexByte(in_buffer);
+            int len = buffer.Length;
+
             if (buffer == null)
             {
                 throw new ArgumentNullException("buffer");
@@ -78,7 +47,18 @@ namespace Socket_RTU
             {
                 crc = CRC8Table[crc ^ buffer[i]];
             }
-            return crc;
+            return  crc;
+        }
+
+        private byte[] strToToHexByte(string hexString)
+        {
+            hexString = hexString.Replace(" ", "");
+            if ((hexString.Length % 2) != 0)
+                hexString += " ";
+            byte[] returnBytes = new byte[hexString.Length / 2];
+            for (int i = 0; i < returnBytes.Length; i++)
+                returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
+            return returnBytes;
         }
 
 

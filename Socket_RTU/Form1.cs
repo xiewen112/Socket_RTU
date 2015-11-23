@@ -22,7 +22,7 @@ namespace Socket_RTU
         private Socket[] ClientSocket;//为客户端建立的SOCKET连接
         private int ClientNumb;//存放客户端数量
         private byte[] MsgBuffer;//存放消息数据
-        
+        private int trySend = 0;
 
         //command
         private string cmd_query;
@@ -113,6 +113,7 @@ namespace Socket_RTU
             Socket RT_socketServer = socketClientPara as Socket;
             IPEndPoint clientipe = (IPEndPoint)RT_socketServer.RemoteEndPoint;
             int list_index = 0;
+            trySend = 0;
             string client_ip_port = clientipe.Address.ToString() + ":" + clientipe.Port.ToString();
             try
             {
@@ -134,7 +135,7 @@ namespace Socket_RTU
                         this.Invoke((MethodInvoker)delegate
                         {
                             
-                            this.txtBox_display.Text += " Client-->：" + strSRecMsg + "\r\n";
+                            this.txtBox_display.Text += " Client-->" + strSRecMsg + "\r\n";
                         });
 
                         if (btn_auto.Text == "关闭应答" && strSRecMsg.Length > 10)
@@ -191,10 +192,10 @@ namespace Socket_RTU
             try{
                 Socket socketsc = socket_a as Socket;
                 CmdData cmddata = new CmdData();
-
+                
 
                 RTU_DataParse dataparse = new RTU_DataParse();
-                byte[] SendMsg_Query = Encoding.UTF8.GetBytes(cmddata.GetCmd_Query());
+                byte[] SendMsg_Query = Encoding.UTF8.GetBytes(cmddata.cmd_generator("QUERY"));
                 byte[] SendMsg_Logout = Encoding.UTF8.GetBytes(cmddata.GetCmd_Logout());
 
 
@@ -206,11 +207,11 @@ namespace Socket_RTU
                 if (dataparse.CMD_TYPE == "RTU_LOGIN")
                 {
                     //dataparse.CMD_TYPE = "LOGIN_SUCCESS";
-                    
+
                     Console.WriteLine(dataparse.ADDRESS);
                     this.Invoke((MethodInvoker)delegate
                     {
-                        this.txtBox_display.Text += "Server<--：" + cmddata.GetCmd_Query() + "\r\n";
+                        this.txtBox_display.Text += "Server-->" + cmddata.GetCmd_Query() + "\r\n";
 
                         this.txt_parseDisplay.Text += "----------- " + DateTime.Now.ToString() + "----------- " + "\r\n";
                         this.txt_parseDisplay.Text += "编号：" + dataparse.ADDRESS + "\r\n";
@@ -225,19 +226,34 @@ namespace Socket_RTU
                 }
                 else if (dataparse.CMD_TYPE == "RTU_DATA")
                 {
-                    
+
                     this.Invoke((MethodInvoker)delegate
                     {
-                        this.txtBox_display.Text += "Server<--：" + cmddata.GetCmd_Query() + "\r\n";
+                        this.txtBox_display.Text += "Server-->" + cmddata.GetCmd_Query() + "\r\n";
+
                         //this.txt_parseDisplay.Text += "----------- " + DateTime.Now.ToString() + "----------- " + "\r\n";
-                        //this.txt_parseDisplay.Text += "编号：" + dataparse.ADDRESS + "\r\n";
-                        //this.txt_parseDisplay.Text += "指令码：" + dataparse.CMD_CODE + "\r\n";
+                        this.txt_parseDisplay.Text += "数据：" + dataparse.FD_DATA[0] + "\r\n";
+                       // this.txt_parseDisplay.Text += "指令码：" + dataparse.CMD_CODE + "\r\n";
                         //this.txt_parseDisplay.Text += "系统时间：" + dataparse.RTU_SYS_TIME + "\r\n";
                         //this.txt_parseDisplay.Text += "工作状态：" + dataparse.WORK_STATE + "\r\n";
                         //this.txt_parseDisplay.Text += "信号强度：" + dataparse.SIGNAL_S + "\r\n";
                     });
 
                     socketsc.Send(SendMsg_Query);
+                } else if (dataparse.CMD_TYPE == "RTU_REQUIRE_LOGOUT")
+                {
+                    trySend++;
+                    if (trySend < 4) {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            this.txtBox_display.Text += "Server-->" + "RTU主动要求断网" + "\r\n";
+                            this.txtBox_display.Text += "Server-->" + "第" + trySend + "尝试重新发送参数" + "\r\n";
+
+                        });
+                        socketsc.Send(SendMsg_Query);
+                    }
+
+                    
                 }
 
                 else if (dataparse.CMD_TYPE == "CMD_ERROR--RTU_DATA_EMPTY")
@@ -283,24 +299,28 @@ namespace Socket_RTU
             {
                 s_form = new setting();
                 s_form.Show();
+               
+            }
+            else if (s_form.IsDisposed)
+            {
+                s_form = new setting();
+                s_form.Show();
             }
             else
             {
                 s_form.Activate();
+                Console.WriteLine("窗口打开 {0}", s_form.ToString());
             }
-             
+
+
+
         }
 
 
         private void btn_auto_Click(object sender, EventArgs e)
         {
 
-            CRC ccc = new CRC();
-            //  byte[] crc_in = { 0x21, 0x31, 0x11, 0x11, 0x11, 0x00};
-            byte[] crc_in = { 0x00, 0x11, 0x11, 0x11, 0x31,  0x21};
-    
-            
-            Console.WriteLine("{0}", Convert.ToString(ccc.CRC8(crc_in,0, crc_in.Length),16));
+           // Console.WriteLine("{0}", );
 
             if(btn_auto.Text == "自动应答")
             {

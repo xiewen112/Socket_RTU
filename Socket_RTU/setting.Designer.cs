@@ -29,12 +29,14 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.rtu_cmdLogout = new System.Windows.Forms.TextBox();
+            this.rtu_cmdQuery = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.rtu_cmdQuery = new System.Windows.Forms.TextBox();
-            this.rtu_cmdLogout = new System.Windows.Forms.TextBox();
             this.btn_save = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.rtu_id = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -50,6 +52,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.rtu_id);
+            this.splitContainer1.Panel1.Controls.Add(this.label5);
             this.splitContainer1.Panel1.Controls.Add(this.rtu_cmdLogout);
             this.splitContainer1.Panel1.Controls.Add(this.rtu_cmdQuery);
             this.splitContainer1.Panel1.Controls.Add(this.label3);
@@ -60,8 +64,33 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.btn_save);
             this.splitContainer1.Size = new System.Drawing.Size(284, 262);
-            this.splitContainer1.SplitterDistance = 125;
+            this.splitContainer1.SplitterDistance = 160;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // rtu_cmdLogout
+            // 
+            this.rtu_cmdLogout.Location = new System.Drawing.Point(82, 75);
+            this.rtu_cmdLogout.Name = "rtu_cmdLogout";
+            this.rtu_cmdLogout.Size = new System.Drawing.Size(190, 21);
+            this.rtu_cmdLogout.TabIndex = 6;
+            this.rtu_cmdLogout.TextChanged += new System.EventHandler(this.rtu_cmdLogout_TextChanged);
+            // 
+            // rtu_cmdQuery
+            // 
+            this.rtu_cmdQuery.Location = new System.Drawing.Point(83, 40);
+            this.rtu_cmdQuery.Name = "rtu_cmdQuery";
+            this.rtu_cmdQuery.Size = new System.Drawing.Size(189, 21);
+            this.rtu_cmdQuery.TabIndex = 5;
+            this.rtu_cmdQuery.TextChanged += new System.EventHandler(this.rtu_cmdQuery_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(111, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(71, 12);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "RTU发出指令";
             // 
             // label2
             // 
@@ -81,44 +110,31 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "查询命令：";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(111, 9);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 12);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "RTU发出指令";
-            // 
-            // rtu_cmdQuery
-            // 
-           
-
-            this.rtu_cmdQuery.Location = new System.Drawing.Point(83, 40);
-            this.rtu_cmdQuery.Name = "rtu_cmdQuery";
-            this.rtu_cmdQuery.Size = new System.Drawing.Size(189, 21);
-            this.rtu_cmdQuery.TabIndex = 5;
-            this.rtu_cmdQuery.Text = "";
-            this.rtu_cmdQuery.TextChanged += new System.EventHandler(this.rtu_cmdQuery_TextChanged);
-            // 
-            // rtu_cmdLogout
-            // 
-            this.rtu_cmdLogout.Location = new System.Drawing.Point(82, 75);
-            this.rtu_cmdLogout.Name = "rtu_cmdLogout";
-            this.rtu_cmdLogout.Size = new System.Drawing.Size(190, 21);
-            this.rtu_cmdLogout.TabIndex = 6;
-            this.rtu_cmdLogout.Text = "";
-            this.rtu_cmdLogout.TextChanged += new System.EventHandler(this.rtu_cmdLogout_TextChanged);
-            // 
             // btn_save
             // 
-            this.btn_save.Location = new System.Drawing.Point(107, 62);
+            this.btn_save.Location = new System.Drawing.Point(107, 37);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(75, 23);
             this.btn_save.TabIndex = 0;
             this.btn_save.Text = "保存";
             this.btn_save.UseVisualStyleBackColor = true;
             this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(35, 109);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 12);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "编号：";
+            // 
+            // rtu_id
+            // 
+            this.rtu_id.Location = new System.Drawing.Point(82, 106);
+            this.rtu_id.Name = "rtu_id";
+            this.rtu_id.Size = new System.Drawing.Size(100, 21);
+            this.rtu_id.TabIndex = 8;
             // 
             // setting
             // 
@@ -147,6 +163,7 @@
         private System.Windows.Forms.TextBox rtu_cmdLogout;
         private System.Windows.Forms.TextBox rtu_cmdQuery;
         private System.Windows.Forms.Button btn_save;
-        
+        private System.Windows.Forms.TextBox rtu_id;
+        private System.Windows.Forms.Label label5;
     }
 }
