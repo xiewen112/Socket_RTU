@@ -11,6 +11,7 @@ namespace Socket_RTU
         
         
         public int DATA_BYTE_LENGTH = 0;
+        public int FD_DATA_LENGTH = 0;
         public string USER_DATA = string.Empty;
         public string CMD = string.Empty;
         public string ADDRESS = string.Empty;
@@ -18,7 +19,7 @@ namespace Socket_RTU
         public string RTU_SYS_TIME = string.Empty;
         public string WORK_STATE = string.Empty;
         public string SIGNAL_S = string.Empty;
-        public string[] FD_DATA = null;
+        public string[] FD_DATA = new string[50];
         public string CMD_TYPE = "ERROR";
         public string CRC_DATA = string.Empty;
 
@@ -103,6 +104,7 @@ namespace Socket_RTU
                                 longCmdParse(rtu_data);
                                 break;
                             case "RTU_DATA":
+
                                 FD_DATA = FD_DataParse(USER_DATA);
                                 break;
                             case "RTU_REQUIRE_LOGOUT":
@@ -144,7 +146,7 @@ namespace Socket_RTU
             WORK_STATE = data.Substring(36, 4);
             SIGNAL_S = data.Substring(40, 2);
         }
-        private DateTime timeReform(string data)
+        public DateTime timeReform(string data)
         {
             DateTime result = new DateTime();
             int year;
@@ -179,23 +181,33 @@ namespace Socket_RTU
             WORK_STATE = userdata.Substring(24, 4);
             temp_Data = userdata.Substring(28);
             count = temp_Data.Length - temp_Data.Replace("FD", "D").Length;
+            FD_DATA_LENGTH = count;
             fd_index = new int[count+1]; // count+1 for precation of overwrite
+            result = new string[count];
             for (int i = 0; i< temp_Data.Length; i++)
             {
                 if(i > 1 && i < temp_Data.Length - 1)
-                if(temp_Data[i] == 'F')
-                {
-                    if (temp_Data[i+1] == 'D')
+                    if(temp_Data[i] == 'F')
                     {
-                            fd_index[start_index] = i - 2;
-                            start_index++;
+                        if (temp_Data[i+1] == 'D')
+                        {
+                                fd_index[start_index] = i - 2;
+                                start_index++;
+                        }
                     }
-                }
             }
 
             for(int j=0; j< count; j++)
             {
-                result[j] = temp_Data.Substring(fd_index[j], fd_index[j + 1]);
+                if(j == count-1)
+                {
+                    result[j] = temp_Data.Substring(fd_index[j]);
+                }
+                else
+                {
+                    result[j] = temp_Data.Substring(fd_index[j], fd_index[j + 1] - fd_index[j]);
+                }
+                
             }
 
             return result; 

@@ -215,7 +215,6 @@ namespace Socket_RTU
 
                         this.txt_parseDisplay.Text += "----------- " + DateTime.Now.ToString() + "----------- " + "\r\n";
                         this.txt_parseDisplay.Text += "编号：" + dataparse.ADDRESS + "\r\n";
-                        this.txt_parseDisplay.Text += "指令码：" + dataparse.CMD_CODE + "\r\n";
                         this.txt_parseDisplay.Text += "系统时间：" + dataparse.RTU_SYS_TIME + "\r\n";
                         this.txt_parseDisplay.Text += "工作状态：" + dataparse.WORK_STATE + "\r\n";
                         this.txt_parseDisplay.Text += "信号强度：" + dataparse.SIGNAL_S + "\r\n";
@@ -231,12 +230,13 @@ namespace Socket_RTU
                     {
                         this.txtBox_display.Text += "Server-->" + cmddata.GetCmd_Query() + "\r\n";
 
-                        //this.txt_parseDisplay.Text += "----------- " + DateTime.Now.ToString() + "----------- " + "\r\n";
-                        this.txt_parseDisplay.Text += "数据：" + dataparse.FD_DATA[0] + "\r\n";
-                       // this.txt_parseDisplay.Text += "指令码：" + dataparse.CMD_CODE + "\r\n";
-                        //this.txt_parseDisplay.Text += "系统时间：" + dataparse.RTU_SYS_TIME + "\r\n";
-                        //this.txt_parseDisplay.Text += "工作状态：" + dataparse.WORK_STATE + "\r\n";
-                        //this.txt_parseDisplay.Text += "信号强度：" + dataparse.SIGNAL_S + "\r\n";
+                        foreach(string str in dataparse.FD_DATA)
+                        {
+                            this.txt_parseDisplay.Text += "通道" + str.Substring(0,4) + "\r\n";
+                            this.txt_parseDisplay.Text += "采集时间:" + dataparse.timeReform(str.Substring(4,12)).ToString() + "\r\n";
+                            this.txt_parseDisplay.Text += "数据:" + str.Substring(16) + "\r\n";
+                        }
+                        
                     });
 
                     socketsc.Send(SendMsg_Query);

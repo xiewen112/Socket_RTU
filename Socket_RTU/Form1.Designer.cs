@@ -301,8 +301,8 @@
             this.Base_container.Panel2.Controls.Add(this.label3);
             this.Base_container.Panel2.Controls.Add(this.txt_parseDisplay);
             this.Base_container.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.Base_container_Panel2_Paint);
-            this.Base_container.Size = new System.Drawing.Size(750, 463);
-            this.Base_container.SplitterDistance = 463;
+            this.Base_container.Size = new System.Drawing.Size(752, 463);
+            this.Base_container.SplitterDistance = 464;
             this.Base_container.TabIndex = 11;
             // 
             // label3
@@ -318,9 +318,10 @@
             // 
             this.txt_parseDisplay.Location = new System.Drawing.Point(3, 25);
             this.txt_parseDisplay.Name = "txt_parseDisplay";
-            this.txt_parseDisplay.Size = new System.Drawing.Size(277, 432);
+            this.txt_parseDisplay.Size = new System.Drawing.Size(278, 432);
             this.txt_parseDisplay.TabIndex = 11;
             this.txt_parseDisplay.Text = "";
+            this.txt_parseDisplay.WordWrap = false;
             // 
             // Form1
             // 
